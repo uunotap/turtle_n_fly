@@ -5,27 +5,32 @@
 
 
 ## initialize the workspace
+```
 mkdir -r ~/turtle_n_fly/src/
 cd ~/turtle_n_fly/src/
 git clone *thispackage*
 ...
+```
 
 ## install TurtleBot 4 Common's (edited from the turtlebot4 common documentation)
+```
 cd ~/turtle_n_fly/src/
 git clone https://github.com/turtlebot/turtlebot4.git -b humble
 cd ..
 rosdep install --from-path src -yi --rosdistro humble
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
+```
 
 ## install turtlebot4 simulation package to the workspace (edited from the turtlebot4 simulation documentation)
+```
 cd ~/turtle_n_fly/src/
 git clone https://github.com/turtlebot/turtlebot4_simulator.git -b humble
 cd ..
 rosdep install --from-path src -yi --rosdistro humble
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
-
+```
 
 ## ??? aerial drone ??? 
 ...
