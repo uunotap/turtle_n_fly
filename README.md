@@ -32,12 +32,13 @@ source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 ```
 
-## ??? aerial drone ??? 
+## Additional prep
+```
 ...
 sudo apt update
 sudo apt install ros-humble-ros-ign-gazebo
 sudo apt install ros-humble-ros-ign
-
+```
 
 
 ### source the workspace
