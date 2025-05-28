@@ -34,6 +34,9 @@ colcon build --symlink-install
 
 ## ??? aerial drone ??? 
 ...
+sudo apt update
+sudo apt install ros-humble-ros-ign-gazebo
+sudo apt install ros-humble-ros-ign
 
 
 
@@ -43,7 +46,17 @@ source ~/turtle_n_fly_ws/install/setup.bash
 ros2 launch turtlebot4_ignition_bringup ignition.launch.py 
 ### Launch the turtlebot under namespace "tb4"
 ros2 launch turtlebot4_ignition_bringup turtlebot4_spawn.launch.py namespace:=tb4 use_sim_time:=true
-### Launching the aerial drone
+### Launching the simulation
+"""
+cd ~/turtle_n_fly_ws
+colcon build --symlink-install
+source install/setup.bash
+ros2 launch turtle_n_fly turtle_n_fly.launch.py
+
+"""
+
+
+
 
 
 
