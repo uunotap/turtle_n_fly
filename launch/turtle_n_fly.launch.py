@@ -18,62 +18,70 @@ def generate_launch_description():
         world=world_file
     )
     
-    
-    
     turtlebot_driver_node = Node(
-    package='webots_ros2_driver',
-    executable='driver',
-    name='turtlebot_driver',
-    output='screen',
-    parameters=[
-    {'robot_name': 'turtlebot3'},
-    {'use_sim_time': True}
-    ],
-    namespace='turtlebot3'
+        package='webots_ros2_driver',
+        executable='driver',
+        name='turtlebot_driver',
+        output='screen',
+        parameters=[
+            {'robot_name': 'turtlebot3'},
+            {'use_sim_time': True}
+        ],
+        namespace='turtlebot3'
     )
-    
-    
     
     mavic_driver_node = Node(
-    package='webots_ros2_driver',
-    executable='driver',
-    name='mavic_driver',
-    output='screen',
-    parameters=[
-    {'robot_name': 'mavic2pro'},
-    {'use_sim_time': True}
-    ],
-    namespace='mavic'
+        package='webots_ros2_driver',
+        executable='driver',
+        name='mavic_driver',
+        output='screen',
+        parameters=[
+            {'robot_name': 'mavic2pro'},
+            {'use_sim_time': True}
+        ],
+        namespace='mavic'
+    )
+
+    # Your behavior nodes
+    turtlebot_scan_node = Node(
+        package='turtle_n_fly',
+        executable='turtlebot_scan_node',
+        output='screen',
+        namespace='turtlebot3',
+        parameters=[{'use_sim_time': True}]
+    )
+
+    drone_navigation_node = Node(
+        package='turtle_n_fly',
+        executable='drone_navigation_node',
+        output='screen',
+        namespace='mavic',
+        parameters=[{'use_sim_time': True}]
     )
     
-    
-    
-#    drone_controller_node = Node(
-#	    package='turtle_n_fly',
-#    	executable='drone_controller',
-#    	output='screen'
-#	)
+    drone_controller_node = Node(
+        package='turtle_n_fly',
+        executable='drone_controller',
+        output='screen',
+        namespace='mavic',
+        parameters=[{'use_sim_time': True}]
+    )
 
 
     return LaunchDescription([
         webots,
-	
         launch.actions.RegisterEventHandler(
-        	event_handler=launch.event_handlers.OnProcessStart(
-        	
-        	target_action=webots,
-        	on_start=[
-        		turtlebot_driver_node,
-        		mavic_driver_node,
-
-
-		      	#drone_controller_node,
-		      	]
-		   )
-	),
-        
-        
-        
+            event_handler=launch.event_handlers.OnProcessStart(
+                target_action=webots,
+                on_start=[
+                    turtlebot_driver_node,
+                    mavic_driver_node,
+                    turtlebot_scan_node,
+                    drone_navigation_node,
+                    drone_controller_node,
+                ]
+            )
+        ),
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=webots,
@@ -81,3 +89,4 @@ def generate_launch_description():
             )
         )
     ])
+

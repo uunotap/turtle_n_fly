@@ -17,12 +17,14 @@ setup(
     zip_safe=True,
     maintainer='Your Name',
     maintainer_email='your@email.com',
-    description='Multi-robot simulation with TurtleBot4 and a drone.',
+    description='Multi-robot simulation with TurtleBot3 and a Mavic 2 Pro drone.',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'drone_controller = turtle_n_fly.drone_controller:main'
+            'drone_controller = turtle_n_fly.drone_controller:main',
+            'turtlebot_scan_node = turtle_n_fly.turtlebot_scan_node:main',
+            'drone_navigation_node = turtle_n_fly.drone_navigation_node:main'
         ],
     },
 )
