@@ -26,7 +26,9 @@ def generate_launch_description():
     
     turtle_path = os.path.join(package_dir, 'resource', 'turtlebot_webots.urdf')
     mavic_path = os.path.join(package_dir, 'resource', 'mavic_webots.urdf')
-        
+     
+     
+   
     turtlebot_driver_node = WebotsController(
         robot_name='turtlebot3',
         namespace='turtlebot3',
@@ -34,8 +36,11 @@ def generate_launch_description():
             {'robot_description': turtle_path},
             {'use_sim_time': True},
             {'set_robot_state_publisher': True},
+            {'update_rate': 50},
+
         ],
-        #respawn=True
+        remappings= [('/cmd_vel', 'turtlebot3/cmd_vel'),],
+        respawn=True
     )    
 
     mavic_driver_node = WebotsController(
@@ -45,8 +50,10 @@ def generate_launch_description():
             {'robot_description': mavic_path},        
             {'use_sim_time': True},
             {'set_robot_state_publisher': True},
-        ],
-        #respawn=True
+        ], 
+ 	remappings= [('/cmd_vel', 'mavic/cmd_vel'),],
+        respawn=True
+    
     )    
 
     

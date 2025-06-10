@@ -17,6 +17,7 @@
             <topicName>/imu</topicName>
             <alwaysOn>false</alwaysOn>
             <frameName>imu_link</frameName>
+            <inertialUnitName>inertial_unit</inertialUnitName>
             <gyroName>gyro</gyroName>
             <accelerometerName>accelerometer</accelerometerName>
         </plugin>
@@ -44,3 +45,4 @@
         </joint>
     </ros2_control>
 </robot>
+

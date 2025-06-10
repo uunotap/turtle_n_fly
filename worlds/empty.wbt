@@ -35,6 +35,18 @@ Background {
 TurtleBot3Burger {
   name "turtlebot3"
   controller "<extern>"
+  extensionSlot [
+    Solid {
+      name "imu_link"
+    }
+    GPS {
+    }
+    InertialUnit {
+      name "inertial_unit"
+    }
+    RobotisLds01 {
+    }
+  ]
 }
 Mavic2Pro {
   translation 0 0.56 0.065
