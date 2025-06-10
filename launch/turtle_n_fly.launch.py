@@ -7,6 +7,7 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_driver.webots_launcher import WebotsLauncher
 
+from webots_ros2_driver.webots_controller import WebotsController
 
 def generate_launch_description():
     package_dir = get_package_share_directory('turtle_n_fly')
@@ -15,36 +16,40 @@ def generate_launch_description():
     world_file = os.path.join(package_dir, 'worlds', 'empty.wbt')
 
     webots = WebotsLauncher(
-        world=world_file
+        world=world_file,
+        ros2_supervisor=True
+        	
     )
     
     
     
-    turtlebot_driver_node = Node(
-    package='webots_ros2_driver',
-    executable='driver',
-    name='turtlebot_driver',
-    output='screen',
-    parameters=[
-    {'robot_name': 'turtlebot3'},
-    {'use_sim_time': True}
-    ],
-    namespace='turtlebot3'
-    )
     
+    turtle_path = os.path.join(package_dir, 'resource', 'turtlebot_webots.urdf')
+    mavic_path = os.path.join(package_dir, 'resource', 'mavic_webots.urdf')
+        
+    turtlebot_driver_node = WebotsController(
+        robot_name='turtlebot3',
+        namespace='turtlebot3',
+        parameters=[
+            {'robot_description': turtle_path},
+            {'use_sim_time': True},
+            {'set_robot_state_publisher': True},
+        ],
+        #respawn=True
+    )    
+
+    mavic_driver_node = WebotsController(
+        robot_name='mavic2pro',
+        namespace='mavic',
+        parameters=[
+            {'robot_description': mavic_path},        
+            {'use_sim_time': True},
+            {'set_robot_state_publisher': True},
+        ],
+        #respawn=True
+    )    
+
     
-    
-    mavic_driver_node = Node(
-    package='webots_ros2_driver',
-    executable='driver',
-    name='mavic_driver',
-    output='screen',
-    parameters=[
-    {'robot_name': 'mavic2pro'},
-    {'use_sim_time': True}
-    ],
-    namespace='mavic'
-    )
     
     
     
@@ -57,15 +62,15 @@ def generate_launch_description():
 
     return LaunchDescription([
         webots,
+
+       	turtlebot_driver_node,
 	
         launch.actions.RegisterEventHandler(
         	event_handler=launch.event_handlers.OnProcessStart(
         	
         	target_action=webots,
         	on_start=[
-        		turtlebot_driver_node,
-        		mavic_driver_node,
-
+ 			mavic_driver_node,
 
 		      	#drone_controller_node,
 		      	]
