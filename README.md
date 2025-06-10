@@ -6,50 +6,44 @@
 
 ## initialize the workspace
 ```
-mkdir -r ~/turtle_n_fly/src/
-cd ~/turtle_n_fly/src/
-git clone *thispackage*
-...
+mkdir -p ~/turtle_n_fly_ws/src/
+cd ~/turtle_n_fly_ws/src/
+git clone https://github.com/uunotap/turtle_n_fly.git
 ```
 
-## install TurtleBot 4 Common's (edited from the turtlebot4 common documentation)
+
+
+## Install Webots
 ```
-cd ~/turtle_n_fly/src/
-git clone https://github.com/turtlebot/turtlebot4.git -b humble
-cd ..
-rosdep install --from-path src -yi --rosdistro humble
-source /opt/ros/humble/setup.bash
+sudo apt-get install webots
+sudo apt-get install ros-humble-webots-ros2
+```
+
+## Add Webots to the ws (? Might be redundant...)
+```
+cd ~/turtle_n_fly_ws/src/
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
+git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
+cd ~/turtle_n_fly_ws/
 colcon build --symlink-install
 ```
 
-## install turtlebot4 simulation package to the workspace (edited from the turtlebot4 simulation documentation)
+
+
+## .bashrc utility
 ```
-cd ~/turtle_n_fly/src/
-git clone https://github.com/turtlebot/turtlebot4_simulator.git -b humble
-cd ..
-rosdep install --from-path src -yi --rosdistro humble
 source /opt/ros/humble/setup.bash
-colcon build --symlink-install
+
+export WEBOTS_HOME=/home/ut/.ros/webotsR2025a/webots
+export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/controller:$LD_LIBRARY_PATH
+export PYTHONPATH=$WEBOTS_HOME/lib/controller/python:$PYTHONPATH
+
 ```
 
-## Additional prep
+### Running the simulation
 ```
-...
-sudo apt update
-sudo apt install ros-humble-ros-ign-gazebo
-sudo apt install ros-humble-ros-ign
-```
-
-
-### source the workspace
-source ~/turtle_n_fly_ws/install/setup.bash
-### Launch the turtlebot4 test environment
-ros2 launch turtlebot4_ignition_bringup ignition.launch.py 
-### Launch the turtlebot under namespace "tb4"
-ros2 launch turtlebot4_ignition_bringup turtlebot4_spawn.launch.py namespace:=tb4 use_sim_time:=true
-### Launching the simulation
-```
-cd ~/turtle_n_fly_ws
+cd ~/turtle_n_fly_ws/
 colcon build --symlink-install
 source install/setup.bash
 ros2 launch turtle_n_fly turtle_n_fly.launch.py

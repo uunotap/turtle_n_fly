@@ -11,7 +11,7 @@ setup(
     data_files=[
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch', glob('launch/*.launch.py')),
-        ('share/' + package_name + '/models/simple_drone', glob('models/simple_drone/*')),
+        ('share/' + package_name + '/worlds', glob('worlds/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
