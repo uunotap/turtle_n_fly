@@ -24,8 +24,7 @@ setup(
         'console_scripts': [
             'drone_controller = turtle_n_fly.drone_controller:main',
             'turtlebot_scan_node = turtle_n_fly.turtlebot_scan_node:main',
-            'drone_navigation_node = turtle_n_fly.drone_navigation_node:main',
-            'scan_and_plan = turtle_n_fly.scan_and_plan:main'
+            'drone_navigation_node = turtle_n_fly.drone_navigation_node:main'
         ],
     },
 )
