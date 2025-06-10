@@ -35,9 +35,8 @@ def generate_launch_description():
         parameters=[
             {'robot_description': turtle_path},
             {'use_sim_time': True},
-            {'set_robot_state_publisher': True},
             {'update_rate': 50},
-
+            {'set_robot_state_publisher': True},
         ],
         remappings= [('/cmd_vel', 'turtlebot3/cmd_vel'),],
         respawn=True
@@ -54,32 +53,52 @@ def generate_launch_description():
  	remappings= [('/cmd_vel', 'mavic/cmd_vel'),],
         respawn=True
     
-    )    
-
+    )
     
     
+    #state publisher to make the simulation editable??
+    turtle_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': '<robot name=""><link name=""/></robot>'
+        }],
+        namespace='turtlebot3'
+    )
+    
+    mavic_robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='screen',
+        parameters=[{
+            'robot_description': '<robot name=""><link name=""/></robot>'
+        }],
+        namespace='mavic'
+    )
     
     
-#    drone_controller_node = Node(
-#	    package='turtle_n_fly',
-#    	executable='drone_controller',
-#    	output='screen'
-#	)
+    drone_controller_node = Node(
+	    package='turtle_n_fly',
+    	executable='drone_controller',
+    	output='screen'
+	)
 
 
     return LaunchDescription([
         webots,
 
        	turtlebot_driver_node,
+ 	mavic_driver_node,
 	
         launch.actions.RegisterEventHandler(
         	event_handler=launch.event_handlers.OnProcessStart(
         	
         	target_action=webots,
         	on_start=[
- 			mavic_driver_node,
-
-		      	#drone_controller_node,
+			turtle_robot_state_publisher,
+			mavic_robot_state_publisher,
+		      	drone_controller_node,
 		      	]
 		   )
 	),
