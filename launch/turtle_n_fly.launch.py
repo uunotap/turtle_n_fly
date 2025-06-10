@@ -66,6 +66,11 @@ def generate_launch_description():
         namespace='mavic',
         parameters=[{'use_sim_time': True}]
     )
+    scan_and_plan_node = Node(
+    package='turtle_n_fly',
+    executable='scan_and_plan',
+    output='screen'
+    )
 
 
     return LaunchDescription([
@@ -79,6 +84,8 @@ def generate_launch_description():
                     turtlebot_scan_node,
                     drone_navigation_node,
                     drone_controller_node,
+                    scan_and_plan_node,
+		    drone_controller_node,
                 ]
             )
         ),
