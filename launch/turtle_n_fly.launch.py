@@ -13,7 +13,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('turtle_n_fly')
     webots_dir = get_package_share_directory('webots_ros2')
 
-    world_file = os.path.join(package_dir, 'worlds', 'empty.wbt')
+    world_file = os.path.join(package_dir, 'worlds', 'testworld.wbt')
 
     webots = WebotsLauncher(
         world=world_file,
