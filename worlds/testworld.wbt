@@ -1,9 +1,11 @@
 #VRML_SIM R2025a utf8
-
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotis/protos/RobotisLds01.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/dji/mavic/protos/Mavic2Pro.proto"
 
 WorldInfo {
+  basicTimeStep 20
+
 }
 Viewpoint {
   orientation 0.3926631575318581 0.14063637964722248 -0.9088658060664587 2.810789276553414
@@ -512,8 +514,4 @@ Mavic2Pro {
   name "mavic2pro"
   controller "<extern>"
 }
-Robot {
-  name "Ros2Supervisor"
-  controller "<extern>"
-  supervisor TRUE
-}
+
