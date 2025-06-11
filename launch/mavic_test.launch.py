@@ -60,7 +60,8 @@ def generate_launch_description():
 
     return LaunchDescription([
         webots,
-        
+        webots._supervisor,
+                
       	mavic_driver_node,
 	
         launch.actions.RegisterEventHandler(
