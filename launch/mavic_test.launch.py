@@ -13,7 +13,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('turtle_n_fly')
     webots_dir = get_package_share_directory('webots_ros2')
 
-    world_file = os.path.join(package_dir, 'worlds', 'empty.wbt')
+    world_file = os.path.join(package_dir, 'worlds', 'mavic_empty.wbt')
 
     webots = WebotsLauncher(
         world=world_file,
@@ -24,24 +24,8 @@ def generate_launch_description():
     
     
     
-    turtle_path = os.path.join(package_dir, 'resource', 'turtlebot_webots.urdf')
     mavic_path = os.path.join(package_dir, 'resource', 'mavic_webots.urdf')
      
-     
-   
-    turtlebot_driver_node = WebotsController(
-        robot_name='turtlebot3',
-        namespace='turtlebot3',
-        parameters=[
-            {'robot_description': turtle_path},
-            {'use_sim_time': True},
-            {'update_rate': 50},
-            {'set_robot_state_publisher': True},
-        ],
-        remappings= [('/cmd_vel', 'turtlebot3/cmd_vel'),],
-        respawn=True
-    )    
-
     mavic_driver_node = WebotsController(
         robot_name='mavic2pro',
         namespace='mavic',
@@ -55,18 +39,7 @@ def generate_launch_description():
     
     )
     
-    
-    #state publisher to make the simulation editable??
-    turtle_robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        output='screen',
-        parameters=[{
-            'robot_description': '<robot name=""><link name=""/></robot>'
-        }],
-        namespace='turtlebot3'
-    )
-    
+        
     mavic_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -78,27 +51,25 @@ def generate_launch_description():
     )
     
     
-    drone_controller_node = Node(
-	    package='turtle_n_fly',
-    	executable='drone_controller',
+    mavic_controller_node = Node(
+	   package='turtle_n_fly',
+    	executable='mavic_node',
     	output='screen'
 	)
 
 
     return LaunchDescription([
         webots,
-
-       	turtlebot_driver_node,
- 	mavic_driver_node,
+        
+      	mavic_driver_node,
 	
         launch.actions.RegisterEventHandler(
         	event_handler=launch.event_handlers.OnProcessStart(
         	
         	target_action=webots,
         	on_start=[
-			turtle_robot_state_publisher,
 			mavic_robot_state_publisher,
-		      	drone_controller_node,
+		      	mavic_controller_node,
 		      	]
 		   )
 	),

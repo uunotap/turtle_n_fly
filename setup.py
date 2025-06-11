@@ -26,7 +26,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'drone_controller = turtle_n_fly.drone_controller:main'
+            'drone_controller = turtle_n_fly.drone_controller:main',
+            'turtle_node = turtle_n_fly.turtle_node:main',
+            'mavic_node = turtle_n_fly.mavic_node:main'
+
         ],
     },
 )
