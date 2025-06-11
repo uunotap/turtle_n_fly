@@ -1,6 +1,7 @@
 ## install ubuntu 22.04 // ros2 humble hawksbill
-...
-
+```
+https://docs.ros.org/en/humble/Installation.html
+```
 
 
 
@@ -11,22 +12,14 @@ cd ~/turtle_n_fly_ws/src/
 git clone https://github.com/uunotap/turtle_n_fly.git
 ```
 
-
-
-## Install Webots
-```
-sudo apt-get install webots
-sudo apt-get install ros-humble-webots-ros2
-```
-
-## Add Webots to the ws (? Might be redundant...)
+## Add Webots (webots_ros2 R2025a) to the ws 
 ```
 cd ~/turtle_n_fly_ws/src/
 rosdep update
 rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y
 git clone --recurse-submodules https://github.com/cyberbotics/webots_ros2.git
 cd ~/turtle_n_fly_ws/
-colcon build --symlink-install
+colcon build #somewhat important since alot of the webots things have cmake, that doesn't like being rebuild
 ```
 
 
@@ -34,8 +27,7 @@ colcon build --symlink-install
 ## .bashrc utility
 ```
 source /opt/ros/humble/setup.bash
-
-export WEBOTS_HOME=/home/ut/.ros/webotsR2025a/webots
+export WEBOTS_HOME=/home/ut/.ros/webotsR2025a/webots 
 export LD_LIBRARY_PATH=$WEBOTS_HOME/lib/controller:$LD_LIBRARY_PATH
 export PYTHONPATH=$WEBOTS_HOME/lib/controller/python:$PYTHONPATH
 

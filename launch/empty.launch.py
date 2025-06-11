@@ -18,7 +18,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('turtle_n_fly')
     webots_dir = get_package_share_directory('webots_ros2')
 
-    world_file = os.path.join(package_dir, 'worlds', 'testworld.wbt')
+    world_file = os.path.join(package_dir, 'worlds', 'empty.wbt')
 
     webots = WebotsLauncher(
         world=world_file,
@@ -103,7 +103,7 @@ def generate_launch_description():
     turtle_ros_control_spawners = [diffdrive_controller_spawner, joint_state_broadcaster_spawner]
     waiting_nodes = WaitForControllerConnection(
         target_driver=turtlebot_driver_node,
-        nodes_to_start=turtle_ros_control_spawners #+ navigation_nodes
+        nodes_to_start=turtle_ros_control_spawners + [turtle_controller_node] #+ navigation_nodes
 		,
 
     )
@@ -130,21 +130,14 @@ def generate_launch_description():
         webots._supervisor,
         controller_manager_node,
 
-        
+
+
+
         #Turtle
         footprint_publisher,
        	turtlebot_driver_node,
         waiting_nodes,
-        
-        launch.actions.RegisterEventHandler(
-        	event_handler=launch.event_handlers.OnProcessStart(
-        	
-        	target_action=turtlebot_driver_node,
-        	on_start=[
-                    turtle_controller_node
-            ])
-        ),
-        
+
         #Turtle
 
         # Mavic
