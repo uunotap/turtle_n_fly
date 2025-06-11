@@ -1,0 +1,33 @@
+running develop
+running egg_info
+creating turtle_n_fly.egg-info
+writing turtle_n_fly.egg-info/PKG-INFO
+writing dependency_links to turtle_n_fly.egg-info/dependency_links.txt
+writing entry points to turtle_n_fly.egg-info/entry_points.txt
+writing requirements to turtle_n_fly.egg-info/requires.txt
+writing top-level names to turtle_n_fly.egg-info/top_level.txt
+writing manifest file 'turtle_n_fly.egg-info/SOURCES.txt'
+reading manifest file 'turtle_n_fly.egg-info/SOURCES.txt'
+writing manifest file 'turtle_n_fly.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/lib/python3.10/site-packages/turtle-n-fly.egg-link (link to .)
+Installing drone_controller script to /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/lib/turtle_n_fly
+Installing mavic_node script to /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/lib/turtle_n_fly
+Installing turtle_node script to /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/lib/turtle_n_fly
+
+Installed /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly
+running symlink_data
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/package.xml -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly
+creating /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/launch
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/launch/turtle_test.launch.py -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/launch
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/launch/turtle_n_fly.launch.py -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/launch
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/launch/mavic_test.launch.py -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/launch
+creating /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/worlds
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/worlds/turtle_empty.wbt -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/worlds
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/worlds/empty.wbt -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/worlds
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/worlds/mavic_empty.wbt -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/worlds
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/worlds/testworld.wbt -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/worlds
+creating /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/resource
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/resource/mavic_webots.urdf -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/resource
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/resource/turtlebot_webots.urdf -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/resource
+symbolically linking /home/bigmist/Documents/GitHub/turtle_n_fly/build/turtle_n_fly/resource/turtle_n_fly -> /home/bigmist/Documents/GitHub/turtle_n_fly/install/turtle_n_fly/share/turtle_n_fly/resource
