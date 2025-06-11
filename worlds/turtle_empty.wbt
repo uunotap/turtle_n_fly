@@ -514,7 +514,7 @@ TurtleBot3Burger {
     maxRange 10
     pointCloud TRUE
     rotationFrequency 10
-    fieldOfView 0.34906585
+    fieldOfView 6.28318531
     }
   ]
 }
