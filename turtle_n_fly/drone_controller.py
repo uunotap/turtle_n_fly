@@ -6,12 +6,6 @@ import math
 
 class DroneController(Node):
     def __init__(self):
-        self.goal_sub = self.create_subscription(
-            PoseStamped,
-            '/drone/goal_pose',
-            self.goal_callback,
-            10
-        )
         self.goal_pose = None
 
         super().__init__('drone_controller')

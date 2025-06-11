@@ -36,11 +36,11 @@ def generate_launch_description():
         respawn=True
     )
         
-#    mavic_controller_node = Node(
-#	   package='turtle_n_fly',
-#    	executable='drone_controller',
-#    	output='screen'
-#	)
+    mavic_controller_node = Node(
+	   package='turtle_n_fly',
+    	executable='drone_controller',
+    	output='screen'
+	)
     #-- Mavic 2 Pro launching and config --
 
 
@@ -142,16 +142,16 @@ def generate_launch_description():
 
         # Mavic
       	mavic_driver,	
- #       launch.actions.RegisterEventHandler(
- #       	event_handler=launch.event_handlers.OnProcessStart(
- #       	
- #       	target_action=mavic_driver,
- #       	on_start=[
-#		      	mavic_controller_node,
-#		      	]
-#		   )
+        launch.actions.RegisterEventHandler(
+        	event_handler=launch.event_handlers.OnProcessStart(
+        	
+        	target_action=mavic_driver,
+        	on_start=[
+		      	mavic_controller_node,
+		      	]
+		   )
 
-#    	),
+    	),
         # Mavic
         
         
