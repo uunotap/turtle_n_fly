@@ -6,6 +6,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import LaserScan
 import sensor_msgs_py.point_cloud2 as pc2
+from nav_msgs.msg import Odometry
 import math
 import numpy as np
 
@@ -18,6 +19,7 @@ class TurtleNode(Node):
 		self.cmd_publisher = self.create_publisher(Twist, '/turtlebot3/cmd_vel', 10)
 		self.pc_subscription = self.create_subscription(PointCloud2, '/turtlebot3/lidar/point_cloud',self.pc_callback,10)
 		self.scan_subscription = self.create_subscription(LaserScan, '/scan',self.scan_callback,10)
+		self.odom_subscription = self.create_subscription(Odometry,'/turtlebot3/odom',self.odom_callback,10)
 		
 		self.moving_duration = 30
 		self.moving = True
@@ -29,6 +31,7 @@ class TurtleNode(Node):
 		self.front_clear_count = 0
 		
 		self.start_time = self.get_clock().now()
+		self.position = None
 
 	def scan_callback(self,msg):
 
@@ -102,7 +105,7 @@ class TurtleNode(Node):
 		
 			min_in_front = min(front_points)
 			self.get_logger().info(f"Min in front {min_in_front} ")
-			if min_in_front > 0.2:
+			if min_in_front > 0.25:
 					self.front_clear_count += 1
 					print(f"Waiting {self.front_clear_count}")
 					if self.front_clear_count > 5:
@@ -137,13 +140,18 @@ class TurtleNode(Node):
 		
 		self.get_logger().info(f"Point cloud with {len(points)} points. Minimum distance of: {min_dist:.2f}, Maximum distance of: {max_dist: .2f}") 
 		#self.get_logger().info(f"The front points: {front_points}")
-		if min_dist > 1.0:
+		if min_dist > 0.4:
 			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
+			self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z}!")
+
+
 			self.destroy_node()
+
+	def odom_callback(self,msg):
+		self.position = msg.pose.pose.position
+	
+
+	
 		
 			
 				 
