@@ -90,7 +90,7 @@ def generate_launch_description():
         webots._supervisor,
         
        	turtlebot_driver_node,
- 	mavic_driver_node,
+ 	    mavic_driver_node,
 	
         launch.actions.RegisterEventHandler(
         	event_handler=launch.event_handlers.OnProcessStart(

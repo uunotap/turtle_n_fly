@@ -4,6 +4,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/dji/mavic/protos/Mavic2Pro.proto"
 
 WorldInfo {
+  basicTimeStep 20
 }
 Viewpoint {
   orientation 0.3926631575318581 0.14063637964722248 -0.9088658060664587 2.810789276553414
@@ -518,4 +519,3 @@ TurtleBot3Burger {
     }
   ]
 }
-
