@@ -13,6 +13,7 @@ class MavicNode(Node):
     def __clock_callback(self, msg):
         self.clock = msg
         self.publisher.publish(self.clock)
+        self.get_logget().info("Im being called")
 
         
         
