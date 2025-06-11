@@ -5,7 +5,7 @@
             <ros>
                 <enabled>true</enabled>
                 <updateRate>5</updateRate>
-                <topicName>/scan</topicName>
+                <topicName>/turtlebot3/scan</topicName>
                 <alwaysOn>false</alwaysOn>
                 <frameName>LDS-01</frameName>
             </ros>
@@ -14,7 +14,7 @@
         <plugin type="webots_ros2_driver::Ros2IMU">
             <enabled>true</enabled>
             <updateRate>20</updateRate>
-            <topicName>/imu</topicName>
+            <topicName>/turtlebot3/imu</topicName>
             <alwaysOn>false</alwaysOn>
             <frameName>imu_link</frameName>
             <inertialUnitName>inertial_unit</inertialUnitName>
@@ -24,10 +24,7 @@
 
         <plugin type="webots_ros2_control::Ros2Control" />
 
-        <!-- type="package_name.file_name.class_name" -->
-        <plugin type="webots_ros2_turtlebot.plugin_example.PluginExample">
-            <parameterExample>someValue</parameterExample>
-        </plugin>
+
     </webots>
 
     <ros2_control name="WebotsControl" type="system">

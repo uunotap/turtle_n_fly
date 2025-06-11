@@ -8,14 +8,7 @@ class DroneController(Node):
     def __init__(self):
         super().__init__('drone_controller')
 
-        self.cmd_vel_pub = self.create_publisher(Twist, '/mavic2pro/cmd_vel', 10)
-
-        # Subscribe to odometry to get current altitude
-        self.odom_sub = self.create_subscription(
-            Odometry,
-            '/mavic2pro/odom',
-            self.odom_callback,
-            10)
+        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
 
         self.timer = self.create_timer(0.1, self.timer_callback)
 
@@ -28,10 +21,6 @@ class DroneController(Node):
         self.current_altitude = 0.0
         self.kp = 1.0
 
-    def odom_callback(self, msg: Odometry):
-        # Update current altitude from odometry message
-        self.current_altitude = msg.pose.pose.position.z
-        self.get_logger().debug(f"Current altitude: {self.current_altitude:.3f}")
 
     def timer_callback(self):
         elapsed = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
@@ -75,7 +64,12 @@ class DroneController(Node):
 
         elif self.state == 'LANDED':
             # Descend slowly
-            twist.linear.z = -0.2
+            twist.linear.z = 0.0
+            twist.linear.y = 0.0
+            twist.linear.x = 1.0           
+            twist.angular.z = 0.0
+            twist.angular.y = 0.0
+            twist.angular.x = 0.0
 
         self.cmd_vel_pub.publish(twist)
 

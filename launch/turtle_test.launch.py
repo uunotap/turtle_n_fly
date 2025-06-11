@@ -30,6 +30,10 @@ def generate_launch_description():
 
 
 
+
+
+
+    ## altered from cyberbotics turtlebot example
     turtle_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -46,9 +50,6 @@ def generate_launch_description():
     	output='screen'
 	)
 
-
-
-    ## altered from cyberbotics turtlebot example
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -66,8 +67,6 @@ def generate_launch_description():
     )
     
     # ROS control spawners
-    
-    
     controller_manager_timeout = ['--controller-manager-timeout', '50']
     controller_manager_prefix = 'python.exe' if os.name == 'nt' else ''
     diffdrive_controller_spawner = Node(
@@ -110,6 +109,11 @@ def generate_launch_description():
         target_driver=turtlebot_driver_node,
         nodes_to_start=turtle_ros_control_spawners #+ navigation_nodes
     )
+
+
+
+
+
     #xöntröl
     controller_manager_node = Node(
     package='controller_manager',
@@ -119,14 +123,11 @@ def generate_launch_description():
     namespace='turtlebot3'
 	)
 
-
-
-
     return LaunchDescription([
         webots,
         webots._supervisor,
 
-	controller_manager_node,
+        controller_manager_node,
 
 
         robot_state_publisher,
@@ -134,7 +135,7 @@ def generate_launch_description():
 
 
        	turtlebot_driver_node,
-	waiting_nodes,
+        waiting_nodes,
 
 
 	
