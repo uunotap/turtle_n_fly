@@ -79,10 +79,12 @@ def generate_launch_description():
     
     
     drone_controller_node = Node(
-	    package='turtle_n_fly',
-    	executable='drone_controller',
-    	output='screen'
-	)
+        package='turtle_n_fly',
+        executable='drone_controller',
+        namespace='mavic',
+        output='screen'
+    )
+
 
 
     return LaunchDescription([
