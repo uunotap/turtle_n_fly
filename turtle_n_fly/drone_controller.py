@@ -6,7 +6,7 @@ from nav_msgs.msg import Odometry
 import math
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Imu
-from tf_transformations import euler_from_quaternion
+from scipy.spatial.transform import Rotation 
 
 class DroneController(Node):
     def __init__(self):
@@ -60,8 +60,8 @@ class DroneController(Node):
     
     def imu_callback(self,msg):
         q = msg.orientation
-        quaternion = [q.x, q.y,q.z,q.w]
-        roll, pitch, yaw = euler_from_quaternion(quaternion)
+        quaternion = Rotation.from_quat([q.x, q.y,q.z,q.w])
+        roll, pitch, yaw = quaternion.as_euler("xyz", degrees=False)
         self.current_yaw = yaw
 
     
@@ -79,7 +79,6 @@ class DroneController(Node):
 
 
     def timer_callback(self):
-        elapsed = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
         twist = Twist()
         self.angle = 0.0
         
@@ -138,7 +137,7 @@ class DroneController(Node):
         # elif self.state == 'HOVERING':
         #     error = self.target_altitude - self.current_altitude
         #     twist.linear.z = self.kp * error
-        #     twist.linear.z += 0.02 * math.sin(elapsed * 2.0)  # gentle oscillation
+        #     twist.linear.z += 0.02 * math.sin(elapsed * 2.0)  # gentles oscillation
 
         #     if elapsed > self.hover_duration:
         #         self.state = 'FLYING'

@@ -22,6 +22,10 @@ cd ~/turtle_n_fly_ws/
 colcon build #somewhat important since alot of the webots things have cmake, that doesn't like being rebuild
 ```
 
+## Troubleshooting
+```
+ pip install numpy==1.24.4
+```
 
 
 ## .bashrc utility
