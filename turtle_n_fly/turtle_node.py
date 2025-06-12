@@ -9,6 +9,8 @@ import sensor_msgs_py.point_cloud2 as pc2
 from nav_msgs.msg import Odometry
 import math
 import numpy as np
+import time
+
 
 
 class TurtleNode(Node):
@@ -126,7 +128,7 @@ class TurtleNode(Node):
 				self.front_clear_count = 0
 				self.turning = True
 				twist2.linear.x=0.0
-				twist2.angular.z=1.0 if self.max_side == "left" else -1.0
+				twist2.angular.z=1.5 if self.max_side == "left" else -1.5
 				self.cmd_publisher.publish(twist2)
 
 
@@ -145,19 +147,40 @@ class TurtleNode(Node):
 		
 		self.get_logger().info(f"Point cloud with {len(points)} points. Minimum distance of: {min_dist:.2f}, Maximum distance of: {max_dist: .2f}") 
 		#self.get_logger().info(f"The front points: {front_points}")
+		# Add to the class TurtleNode
 		if min_dist > 0.4:
-			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-			self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z}!")
-			pose_msg = PoseStamped()
-			pose_msg.header.stamp = self.get_clock().now().to_msg()
-			pose_msg.header.frame_id = 'LIFTOFF'
-			pose_msg.pose.position.x = self.position.x
-			pose_msg.pose.position.y = self.position.y
+			self.handle_opening_found()
 
-			self.goal_publisher.publish(pose_msg)
+			
+	def handle_opening_found(self):
+		self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
+		self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z})!")
 
+		# Send position to the drone
+		pose_msg = PoseStamped()
+		pose_msg.header.stamp = self.get_clock().now().to_msg()
+		pose_msg.header.frame_id = 'LIFTOFF'
+		pose_msg.pose.position.x = self.position.x
+		pose_msg.pose.position.y = self.position.y
+		self.goal_publisher.publish(pose_msg)
+		self.get_logger().info(f"Sending goal to drone: ({pose_msg.pose.position.x:.2f}, {pose_msg.pose.position.y:.2f})")
 
-			self.destroy_node()
+		# Backup a little bit
+		twist = Twist()
+		twist.linear.x = -0.2
+		self.cmd_publisher.publish(twist)
+
+		# Let it back up for a short moment
+		self.get_logger().info("Backing up a bit...")
+		time.sleep(2.0)  
+
+		# Stop the turtle
+		twist.linear.x = 0.0
+		self.cmd_publisher.publish(twist)
+
+		# Done, shut down the node
+		self.destroy_node()
+
 
 	def odom_callback(self,msg):
 		self.position = msg.pose.pose.position
