@@ -1,18 +1,14 @@
 #VRML_SIM R2025a utf8
-
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotis/protos/RobotisLds01.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/dji/mavic/protos/Mavic2Pro.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/devices/robotis/protos/RobotisLds01.proto"
+
 WorldInfo {
-  basicTimeStep 8
-  defaultDamping Damping {
-    linear 0.5
-    angular 0.5
-  }
+  basicTimeStep 20
 }
 Viewpoint {
-  orientation 0.00996562205259866 -0.0826478423507517 0.9965289862978749 0.2408279015012681
-  position -10.033124675448327 -2.485382430497709 1.9584877759264196
+  orientation 0.3926631575318581 0.14063637964722248 -0.9088658060664587 2.810789276553414
+  position 10.56263213570906 3.283968333940232 10.9359474791315
 }
 DirectionalLight {
   direction 0 -1 0
@@ -29,6 +25,465 @@ Solid {
     size 100 100
   }
 }
+Solid {
+  translation 0.67 -0.38 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 3 0.5 0.5
+      }
+    }
+  ]
+  name "wall"
+}
+Solid {
+  translation 2.59 -0.25 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 3 0.5 0.5
+      }
+    }
+  ]
+  name "wall(5)"
+}
+Solid {
+  translation 0.09 0.4 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(1)"
+}
+Solid {
+  translation 0.52 0.47 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(3)"
+}
+Solid {
+  translation 0.73 0.47 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(4)"
+}
+Solid {
+  translation 0.95 0.75 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(6)"
+}
+Solid {
+  translation 0.95 1.21 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(8)"
+}
+Solid {
+  translation 1.43 1.21 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(9)"
+}
+Solid {
+  translation 1.77 1.21 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(10)"
+}
+Solid {
+  translation 2.68 0.88 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(11)"
+}
+Solid {
+  translation 2.68 1.37 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(13)"
+}
+Solid {
+  translation 3.18 1.84 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(15)"
+}
+Solid {
+  translation 3.18 2.27 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(16)"
+}
+Solid {
+  translation 1.87 3.04 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(19)"
+}
+Solid {
+  translation 2.35 3.04 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(20)"
+}
+Solid {
+  translation 2.78 3.04 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(21)"
+}
+Solid {
+  translation 3.16 2.73 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(22)"
+}
+Solid {
+  translation 1.46 2.14 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(17)"
+}
+Solid {
+  translation 1.46 2.57 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(18)"
+}
+Solid {
+  translation 1.46 1.64 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(14)"
+}
+Solid {
+  translation 3.84 0.03 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(12)"
+}
+Solid {
+  translation 3.04 0.88 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(23)"
+}
+Solid {
+  translation 3.5 0.88 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(24)"
+}
+Solid {
+  translation 3.89 0.88 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(25)"
+}
+Solid {
+  translation 4.15 0.44 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(26)"
+}
+Solid {
+  translation 1.85 0.35 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(7)"
+}
+Solid {
+  translation -0.41 0.02 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.101961 0.372549 0.705882
+          emissiveColor 0.101961 0.372549 0.705882
+        }
+      }
+      geometry Box {
+        size 0.5 0.5 0.5
+      }
+    }
+  ]
+  name "wall(2)"
+}
 DirectionalLight {
   direction 0 -1 0
 }
@@ -37,6 +492,7 @@ Background {
     0.15 0.45 1
   ]
 }
+
 TurtleBot3Burger {
   name "turtlebot3"
   controller "<extern>"
@@ -51,10 +507,20 @@ TurtleBot3Burger {
     }
     RobotisLds01 {
     }
+    Lidar{
+    translation 0 0 0.05
+    name "lidar"
+    horizontalResolution 360
+    scanAngle 6.28
+    maxRange 10
+    pointCloud TRUE
+    rotationFrequency 10
+    fieldOfView 6.28318531
+    }
   ]
 }
 Mavic2Pro {
-  translation 0 0.56 0.065
+  translation 0 -1 0.065
   name "mavic2pro"
   controller "<extern>"
 }

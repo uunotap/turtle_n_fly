@@ -510,8 +510,19 @@ TurtleBot3Burger {
     }
     RobotisLds01 {
     }
+    Lidar{
+    translation 0 0 0.05
+    name "lidar"
+    horizontalResolution 360
+    scanAngle 6.28
+    maxRange 10
+    pointCloud TRUE
+    rotationFrequency 10
+    fieldOfView 6.28318531
+    }
   ]
 }
+
 Mavic2Pro {
   translation -0.48 0.81 0.065
   name "mavic2pro"

@@ -2,13 +2,14 @@
 from rosgraph_msgs.msg import Clock
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist,PoseStamped
 from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import LaserScan
 import sensor_msgs_py.point_cloud2 as pc2
 from nav_msgs.msg import Odometry
 import math
 import numpy as np
+
 
 class TurtleNode(Node):
 	def __init__(self):
@@ -18,8 +19,9 @@ class TurtleNode(Node):
 		self.clock = Clock()
 		self.cmd_publisher = self.create_publisher(Twist, '/turtlebot3/cmd_vel', 10)
 		self.pc_subscription = self.create_subscription(PointCloud2, '/turtlebot3/lidar/point_cloud',self.pc_callback,10)
-		self.scan_subscription = self.create_subscription(LaserScan, '/scan',self.scan_callback,10)
+		self.scan_subscription = self.create_subscription(LaserScan, 'turtlebot3/scan',self.scan_callback,10)
 		self.odom_subscription = self.create_subscription(Odometry,'/turtlebot3/odom',self.odom_callback,10)
+		self.goal_publisher = self.create_publisher(PoseStamped, '/goal',10)
 		
 		self.moving_duration = 30
 		self.moving = True
@@ -34,6 +36,8 @@ class TurtleNode(Node):
 		self.position = None
 
 	def scan_callback(self,msg):
+
+		self.get_logger().info("we logging")
 
 		if self.turning:
 			self.get_logger().info("WE here")
@@ -85,6 +89,7 @@ class TurtleNode(Node):
 			
 			self.cmd_publisher.publish(twist)
 	def pc_callback(self,msg):
+		self.get_logger().info("We in pc callback")
 		twist2 = Twist()
 		points = list(pc2.read_points(msg, skip_nans=True))
    
@@ -143,6 +148,9 @@ class TurtleNode(Node):
 		if min_dist > 0.4:
 			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
 			self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z}!")
+			pose_msg = PoseStamped()
+			pose_msg.header.stamp = self.get_glock().now().to_msg()
+			pose_msg.header.frame_id = 'LIFTOFF'
 
 
 			self.destroy_node()

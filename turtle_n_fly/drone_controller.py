@@ -3,6 +3,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 import math
+from geometry_msgs.msg import PoseStamped
 
 class DroneController(Node):
     def __init__(self):
@@ -11,12 +12,13 @@ class DroneController(Node):
         super().__init__('drone_controller')
 
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        #self.goal_subscription = self.create_subscription(PoseStamped,'/goal',self.goal_callback)
 
         self.timer = self.create_timer(0.1, self.timer_callback)  # 10 Hz
 
         # Time and state tracking
         self.start_time = self.get_clock().now()
-        self.state = 'LIFTOFF'
+        self.state = 'WAITING'
 
         # Control parameters
         self.liftoff_duration = 3.0
@@ -29,6 +31,7 @@ class DroneController(Node):
 
     def goal_callback(self, msg):
         self.goal_pose = msg
+        self.state = msg.header.id
         self.get_logger().info(f"Received new goal: {msg.pose.position}")
 
 
