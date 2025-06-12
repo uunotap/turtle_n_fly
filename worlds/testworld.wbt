@@ -522,7 +522,6 @@ TurtleBot3Burger {
     }
   ]
 }
-
 Mavic2Pro {
   translation -0.48 0.81 0.065
   name "mavic2pro"

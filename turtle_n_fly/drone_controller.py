@@ -8,6 +8,12 @@ from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Imu
 from scipy.spatial.transform import Rotation 
 
+import cv2
+import numpy as np
+from cv_bridge import CvBridge
+from sensor_msgs.msg import Image
+
+
 class DroneController(Node):
     def __init__(self):
         self.goal_pose = None
@@ -21,11 +27,6 @@ class DroneController(Node):
         self.goal_subscription = self.create_subscription(PoseStamped,'/goal',self.goal_callback,qos_profile)
         self.gps_subscription = self.create_subscription(PointStamped,'/mavic2pro/gps',self.gps_callback,10)
         self.imu_subscription = self.create_subscription(Imu,'/imu',self.imu_callback,10)
-
-
-
-
-
         self.timer = self.create_timer(0.1, self.timer_callback)  # 10 Hz
 
         # Time and state tracking
@@ -45,6 +46,53 @@ class DroneController(Node):
         self.current_y = 0.0
         self.current_z = 0.0
         self.current_yaw = 0.0
+
+
+    #image stuff
+        self.bridge= CvBridge()
+        cv2.namedWindow("drone_view", cv2.WINDOW_NORMAL)
+        self.camfeed = self.create_subscription(Image, "/mavic2pro/camera/image_color", self.image_callback,qos_profile)
+        self.turtle_det = False
+        self.image_width=400
+        self.image_height=240
+
+
+    def image_callback(self, msg):
+        cv_image=self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgra8')
+        
+        colorshift=cv2.cvtColor(cv_image, cv2.COLOR_BGRA2BGR)
+        lower=np.array([5,5,5], dtype="uint8")
+        higher=np.array([60,60,65], dtype="uint8")
+        turtle_mask=cv2.inRange(colorshift,lower,higher)
+        contours, _= cv2.findContours(turtle_mask, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        
+        dimensions=colorshift.shape
+        
+        if contours:
+            largest=max(contours, key=cv2.contourArea)
+            if cv2.contourArea(largest)>50:    
+                x, y, w, h= cv2.boundingRect(largest)
+                cv2.rectangle(colorshift, (x, y),(x+w,y+h), (0,125,125), 2)
+                cx, cy = int(x+w/2),int(y+h/2)
+    
+
+                self.turtle_det=True
+            
+        # Compute offset from center of image
+                offset_x = cx - self.image_width // 2
+                offset_y = cy - self.image_height // 2
+                self.turtle_offset = (offset_x, offset_y)
+    
+        else:
+            self.turtle_det=False
+
+            self.turtle_offset = (0, 0)
+    
+    
+    
+        cv2.imshow("drone_view",colorshift)
+        cv2.waitKey(1)
+    #image stuff
 
 
     def goal_callback(self, msg):
@@ -109,7 +157,7 @@ class DroneController(Node):
                     self.get_logger().info("We giving us some descent speed!")
                     twist.linear.z = self.landing_speed
                 else:
-                    twist.linear.z = 0.0
+                    twist.linear.z = -0.05
                     self.get_logger().info("TOUCHDOWN")
                 self.get_logger().info(f"My descent speed is {twist.linear.z} and current z: {self.current_z}")
 
@@ -117,11 +165,28 @@ class DroneController(Node):
             self.cmd_vel_pub.publish(twist)
             self.get_logger().info(f"THe goal is {goal_x} and {goal_y} and self is {self.current_x} and {self.current_y} The angle between me and goal is: {self.angle}")
             
-        
-            
+        else:
+            if self.turtle_det:
+                offset_x, offset_y = self.turtle_offset
 
-            # Compare with current pose from odometry
-            # and publish velocity command to /mavic/cmd_vel
+                # Normalize offset
+                norm_x = offset_x / (self.image_width / 2)
+                norm_y = offset_y / (self.image_height / 2)
+
+                # Simple proportional control to center the turtle
+                kp_cam_yaw = 0.3
+                kp_cam_pitch = 0.1
+
+                twist.angular.z = -kp_cam_yaw * norm_x  # turn to center x
+                twist.linear.z = -kp_cam_pitch * norm_y  # optional: adjust altitude to center y
+
+                self.get_logger().info(f"Centering turtle: offset_x={offset_x}, offset_y={offset_y}, norm_x={norm_x:.2f}, norm_y={norm_y:.2f}")
+            else:
+                twist.angular.y = -0.5  # slow hover or scan
+                twist.linear.x = 0.0
+                twist.linear.z = -self.landing_speed
+
+            self.cmd_vel_pub.publish(twist)
         
         
 
