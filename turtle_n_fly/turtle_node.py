@@ -104,7 +104,7 @@ class TurtleNode(Node):
 		for x,y,z in points:
 			distance = math.sqrt(x**2 + y**2)
 			angle = math.atan2(y,x)
-			if distance < 2.0 and -math.radians(8) <=angle <= math.radians(8):
+			if distance < 2.0 and -math.radians(9) <=angle <= math.radians(9):
 				front_points.append(distance)
 		if front_points:
 		
