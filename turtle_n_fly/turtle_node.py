@@ -153,33 +153,31 @@ class TurtleNode(Node):
 
 			
 	def handle_opening_found(self):
-		self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
-		self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z})!")
+		self.send_position_to_drone()
+		self.command_backup()
 
-		# Send position to the drone
+	def send_position_to_drone(self):
+		if self.position is None:
+			self.get_logger().warn("Position unknown")
+			return
 		pose_msg = PoseStamped()
 		pose_msg.header.stamp = self.get_clock().now().to_msg()
 		pose_msg.header.frame_id = 'LIFTOFF'
 		pose_msg.pose.position.x = self.position.x
 		pose_msg.pose.position.y = self.position.y
 		self.goal_publisher.publish(pose_msg)
-		self.get_logger().info(f"Sending goal to drone: ({pose_msg.pose.position.x:.2f}, {pose_msg.pose.position.y:.2f})")
+		self.get_logger().info(f"Sending goal to drone: ({self.position.x:.2f}, {self.position.y:.2f})")
 
-		# Backup a little bit
+	def command_backup(self):
 		twist = Twist()
 		twist.linear.x = -0.2
 		self.cmd_publisher.publish(twist)
-
-		# Let it back up for a short moment
 		self.get_logger().info("Backing up a bit...")
-		time.sleep(2.0)  
-
-		# Stop the turtle
+		time.sleep(5.0)
 		twist.linear.x = 0.0
 		self.cmd_publisher.publish(twist)
-
-		# Done, shut down the node
 		self.destroy_node()
+
 
 
 	def odom_callback(self,msg):
