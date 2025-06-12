@@ -159,6 +159,8 @@ class DroneController(Node):
                 else:
                     twist.linear.z = -0.05
                     self.get_logger().info("TOUCHDOWN")
+                    self.get_logger().info("Shutting down drone node...")
+                    self.destroy_node()
                 self.get_logger().info(f"My descent speed is {twist.linear.z} and current z: {self.current_z}")
 
 
