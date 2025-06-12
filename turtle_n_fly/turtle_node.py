@@ -104,13 +104,13 @@ class TurtleNode(Node):
 		for x,y,z in points:
 			distance = math.sqrt(x**2 + y**2)
 			angle = math.atan2(y,x)
-			if distance < 2.0 and -math.radians(10) <=angle <= math.radians(10):
+			if distance < 2.0 and -math.radians(8) <=angle <= math.radians(8):
 				front_points.append(distance)
 		if front_points:
 		
 			min_in_front = min(front_points)
 			self.get_logger().info(f"Min in front {min_in_front} ")
-			if min_in_front > 0.25:
+			if min_in_front > 0.20:
 					self.front_clear_count += 1
 					print(f"Waiting {self.front_clear_count}")
 					if self.front_clear_count > 5:
@@ -149,8 +149,12 @@ class TurtleNode(Node):
 			self.get_logger().info("Found an opening!!!!!!!!!!!!!!!!!!!!!")
 			self.get_logger().info(f"My position is ({self.position.x}, {self.position.y}, {self.position.z}!")
 			pose_msg = PoseStamped()
-			pose_msg.header.stamp = self.get_glock().now().to_msg()
+			pose_msg.header.stamp = self.get_clock().now().to_msg()
 			pose_msg.header.frame_id = 'LIFTOFF'
+			pose_msg.pose.position.x = self.position.x
+			pose_msg.pose.position.y = self.position.y
+
+			self.goal_publisher.publish(pose_msg)
 
 
 			self.destroy_node()

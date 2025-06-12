@@ -44,6 +44,7 @@ class MavicNode:
 
     def __clock_callback(self, msg):
         self.__clock = msg
+        self.get_logger().info("im being called")
 
     # The `step` method is called at every step.
     def step(self):

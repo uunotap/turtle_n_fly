@@ -527,5 +527,11 @@ Mavic2Pro {
   translation -0.48 0.81 0.065
   name "mavic2pro"
   controller "<extern>"
+  extensionSlot [
+  GPS{
+  name "gps"
+  samplingPeriod 50
+  }
+  ]
 }
 

@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from rclpy.qos import QoSProfile,QoSReliabilityPolicy,QoSHistoryPolicy
+from geometry_msgs.msg import Twist,PointStamped
 from nav_msgs.msg import Odometry
 import math
 from geometry_msgs.msg import PoseStamped
@@ -9,10 +10,19 @@ class DroneController(Node):
     def __init__(self):
         self.goal_pose = None
 
-        super().__init__('drone_controller')
+        qos_profile = QoSProfile(reliability = QoSReliabilityPolicy.RELIABLE,history=QoSHistoryPolicy.KEEP_LAST,depth=10)
 
-        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
-        #self.goal_subscription = self.create_subscription(PoseStamped,'/goal',self.goal_callback)
+        super().__init__('drone_controller')
+        self.get_logger().info("Am i even running or nah?")
+
+        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', QoSProfile(depth=10))
+        self.goal_subscription = self.create_subscription(PoseStamped,'/goal',self.goal_callback,qos_profile)
+        self.odom_subscription = self.create_subscription(Odometry, '/odom',self.odom_callback,10)
+        self.gps_subscription = self.create_subscription(PointStamped,'/mavic2pro/gps',self.gps_callback,10)
+
+
+
+
 
         self.timer = self.create_timer(0.1, self.timer_callback)  # 10 Hz
 
@@ -28,11 +38,27 @@ class DroneController(Node):
         self.target_altitude = 0.3
         self.kp = 1.0
         self.current_altitude = 0.0
+        self.current_x = 0.0
+        self.current_y = 0.0
+        self.current_Z = 0.0
+
+    def odom_callback(self,msg):
+        self.current_pose = msg.pose.pose
+        self.current_altitude = self.current_pose.position.z
+        self.get_logger().info(f"I got some data: {self.current_pose}")
 
     def goal_callback(self, msg):
+        self.get_logger().info("I got called!")
         self.goal_pose = msg
-        self.state = msg.header.id
+        self.state = msg.header.frame_id
         self.get_logger().info(f"Received new goal: {msg.pose.position}")
+
+    def gps_callback(self,msg):
+        self.current_x=msg.point.x
+        self.current_y=msg.point.y
+        self.current_z=msg.point.z
+        self.get_logger().info(f"My current position is at {self.current_x},{self.current_y},{self.current_z}")
+
 
 
     def timer_callback(self):
