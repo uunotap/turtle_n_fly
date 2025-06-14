@@ -7,6 +7,7 @@ from sensor_msgs.msg import PointCloud2
 from sensor_msgs.msg import LaserScan
 import sensor_msgs_py.point_cloud2 as pc2
 from nav_msgs.msg import Odometry
+from std_msgs.msg import String
 import math
 import numpy as np
 import time
@@ -24,6 +25,7 @@ class TurtleNode(Node):
 		self.scan_subscription = self.create_subscription(LaserScan, 'turtlebot3/scan',self.scan_callback,10)
 		self.odom_subscription = self.create_subscription(Odometry,'/turtlebot3/odom',self.odom_callback,10)
 		self.goal_publisher = self.create_publisher(PoseStamped, '/goal',10)
+		self.drone_subscription = self.create_subscription(String, '
 		
 		self.moving_duration = 30
 		self.moving = True
