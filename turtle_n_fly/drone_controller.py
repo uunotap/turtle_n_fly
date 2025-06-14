@@ -136,9 +136,11 @@ class DroneController(Node):
         
 
         if self.goal_pose:
+            #jaakko edit __
             string = String()
             string.data = "Goal recieved, starting to turn!"
             self.turtle_com_pub.publish(string)
+            #__
             goal_x = self.goal_pose.pose.position.x
             goal_y = self.goal_pose.pose.position.y
             goal_z = self.goal_pose.pose.position.z
@@ -152,8 +154,10 @@ class DroneController(Node):
             if abs(yaw_error) < 0.1:
                 twist.angular.z = 0.0
                 twist.linear.x = 0.2
+                #jaakko edit __
                 string.data = "Succesfully turned towards goal, starting to move forward!"
                 self.turtle_com_pub.publish(string)
+                #__
             if self.distance(self.current_x,self.current_y,goal_x,goal_y)<= 0.1:
                 self.get_logger().info(f"We are about to land!")
                 twist.linear.x = 0.0
@@ -161,16 +165,20 @@ class DroneController(Node):
                 twist.angular.x = 0.0
                 twist.angular.y = 0.0
                 twist.angular.z = 0.0
+                #jaakko edit__
                 string.data = "Arrived at location, starting to land!"
                 self.turtle_com_pub.publish(string)
+                #__
 
                 if self.current_z > self.target_altitude:
                     self.get_logger().info("We giving us some descent speed!")
                     twist.linear.z = self.landing_speed
                 else:
                     twist.linear.z = -0.05
+                    #jaakko edit__
                     string.data("We have landed")
                     self.turtle_com_pub.publish(string)
+                    #__
                     self.get_logger().info("TOUCHDOWN")
                     self.get_logger().info("Shutting down drone node...")
                     self.destroy_node()
