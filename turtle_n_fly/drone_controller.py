@@ -6,7 +6,9 @@ from nav_msgs.msg import Odometry
 import math
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Imu
-from scipy.spatial.transform import Rotation 
+from scipy.spatial.transform import Rotation
+#Jaakko edit
+from std_msgs.msg import String
 
 import cv2
 import numpy as np
@@ -28,6 +30,8 @@ class DroneController(Node):
         self.gps_subscription = self.create_subscription(PointStamped,'/mavic2pro/gps',self.gps_callback,10)
         self.imu_subscription = self.create_subscription(Imu,'/imu',self.imu_callback,10)
         self.timer = self.create_timer(0.1, self.timer_callback)  # 10 Hz
+        #Jaakko edit
+        self.turtle_com_pub = self.create_subscription(String, '/drone_msg',QoSProfile(depth=10))
 
         # Time and state tracking
         self.start_time = self.get_clock().now()
@@ -132,6 +136,9 @@ class DroneController(Node):
         
 
         if self.goal_pose:
+            string = String()
+            string.data = "Goal recieved, starting to turn!"
+            self.turtle_com_pub.publish(string)
             goal_x = self.goal_pose.pose.position.x
             goal_y = self.goal_pose.pose.position.y
             goal_z = self.goal_pose.pose.position.z
@@ -145,6 +152,8 @@ class DroneController(Node):
             if abs(yaw_error) < 0.1:
                 twist.angular.z = 0.0
                 twist.linear.x = 0.2
+                string.data = "Succesfully turned towards goal, starting to move forward!"
+                self.turtle_com_pub.publish(string)
             if self.distance(self.current_x,self.current_y,goal_x,goal_y)<= 0.1:
                 self.get_logger().info(f"We are about to land!")
                 twist.linear.x = 0.0
@@ -152,12 +161,16 @@ class DroneController(Node):
                 twist.angular.x = 0.0
                 twist.angular.y = 0.0
                 twist.angular.z = 0.0
+                string.data = "Arrived at location, starting to land!"
+                self.turtle_com_pub.publish(string)
 
                 if self.current_z > self.target_altitude:
                     self.get_logger().info("We giving us some descent speed!")
                     twist.linear.z = self.landing_speed
                 else:
                     twist.linear.z = -0.05
+                    string.data("We have landed")
+                    self.turtle_com_pub.publish(string)
                     self.get_logger().info("TOUCHDOWN")
                     self.get_logger().info("Shutting down drone node...")
                     self.destroy_node()
