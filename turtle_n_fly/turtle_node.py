@@ -25,7 +25,7 @@ class TurtleNode(Node):
 		self.scan_subscription = self.create_subscription(LaserScan, 'turtlebot3/scan',self.scan_callback,10)
 		self.odom_subscription = self.create_subscription(Odometry,'/turtlebot3/odom',self.odom_callback,10)
 		self.goal_publisher = self.create_publisher(PoseStamped, '/goal',10)
-		self.drone_subscription = self.create_subscription(String, '
+		self.drone_subscription = self.create_subscription(String, '/drone_msg',self.drone_callback,10)
 		
 		self.moving_duration = 30
 		self.moving = True
@@ -38,6 +38,10 @@ class TurtleNode(Node):
 		
 		self.start_time = self.get_clock().now()
 		self.position = None
+
+	def drone_callback(self,msg):
+		string = msg.data
+		self.get_logger().info(f"Recieved message from drone: {string}!)
 
 	def scan_callback(self,msg):
 
