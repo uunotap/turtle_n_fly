@@ -1,9 +1,48 @@
+# Project info
+
+
+
+# General outline of the project files
+```
+├── launch 
+│   ├── empty.launch.py     #Start test world with only the robots
+│   ├── mavic_test.launch.py #Start test world with only the drone
+│   ├── turtle_n_fly.launch.py #Start testing world with some obstacles and both robots
+│   └── turtle_test.launch.py #Start test world with only the turtle
+├── README.md
+├── resource
+│   ├── mavic_webots.urdf # Drone definition
+│   ├── nav2_params.yaml # Turtlebot simulation parameters
+│   ├── ros2control.yml # Turtlebot simulation parameters
+│   ├── turtlebot_webots.urdf # Turtlebot definition
+│   └── turtle_n_fly # default file
+├── setup.py #Marking files for colcon
+├── test # default files
+│   ├── test_copyright.py
+│   ├── test_flake8.py 
+│   └── test_pep257.py # default file
+├── turtle_n_fly
+│   ├── drone_controller.py # Logic for the drone
+│   ├── __init__.py # default file
+│   ├── mavic_driver.py # Slightly modified cyberbotics(webots) example driver
+│   └── turtle_node.py # Logic for the turtle
+├── worlds
+│   ├── empty.wbt # def for empty world with both
+│   ├── mavic_empty.wbt # def for empty with drone
+│   ├── testworld.wbt # def for the test
+│   └── turtle_empty.wbt # def for empty with turtle
+└─ ...
+```
+
+
+
+
+
+# RUNNING/REPRODUCIBILITY
 ## install ubuntu 22.04 // ros2 humble hawksbill
 ```
 https://docs.ros.org/en/humble/Installation.html
 ```
-
-
 
 ## initialize the workspace
 ```

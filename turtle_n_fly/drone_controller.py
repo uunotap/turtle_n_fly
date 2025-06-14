@@ -25,13 +25,13 @@ class DroneController(Node):
         super().__init__('drone_controller')
         self.get_logger().info("Am i even running or nah?")
 
-        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', QoSProfile(depth=10))
+        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', qos_profile)
         self.goal_subscription = self.create_subscription(PoseStamped,'/goal',self.goal_callback,qos_profile)
-        self.gps_subscription = self.create_subscription(PointStamped,'/mavic2pro/gps',self.gps_callback,10)
-        self.imu_subscription = self.create_subscription(Imu,'/imu',self.imu_callback,10)
+        self.gps_subscription = self.create_subscription(PointStamped,'/mavic2pro/gps',self.gps_callback,qos_profile)
+        self.imu_subscription = self.create_subscription(Imu,'/imu',self.imu_callback,qos_profile)
         self.timer = self.create_timer(0.1, self.timer_callback)  # 10 Hz
         #Jaakko edit
-        self.turtle_com_pub = self.create_subscription(String, '/drone_msg',QoSProfile(depth=10))
+        self.turtle_com_pub = self.create_publisher(String, '/drone_msg',qos_profile)
 
         # Time and state tracking
         self.start_time = self.get_clock().now()
@@ -52,51 +52,51 @@ class DroneController(Node):
         self.current_yaw = 0.0
 
 
-    #image stuff
-        self.bridge= CvBridge()
-        cv2.namedWindow("drone_view", cv2.WINDOW_NORMAL)
-        self.camfeed = self.create_subscription(Image, "/mavic2pro/camera/image_color", self.image_callback,qos_profile)
-        self.turtle_det = False
-        self.image_width=400
-        self.image_height=240
+    ###image stuff
+    #    self.bridge= CvBridge()
+    #    cv2.namedWindow("drone_view", cv2.WINDOW_NORMAL)
+    #    self.camfeed = self.create_subscription(Image, "/mavic2pro/camera/image_color", self.image_callback,qos_profile)
+    #    self.turtle_det = False
+    #    self.image_width=400
+    #    self.image_height=240
 
 
-    def image_callback(self, msg):
-        cv_image=self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgra8')
+    #def image_callback(self, msg):
+    #    cv_image=self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgra8')
         
-        colorshift=cv2.cvtColor(cv_image, cv2.COLOR_BGRA2BGR)
-        lower=np.array([5,5,5], dtype="uint8")
-        higher=np.array([60,60,65], dtype="uint8")
-        turtle_mask=cv2.inRange(colorshift,lower,higher)
-        contours, _= cv2.findContours(turtle_mask, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    #    colorshift=cv2.cvtColor(cv_image, cv2.COLOR_BGRA2BGR)
+    #    lower=np.array([5,5,5], dtype="uint8")
+    #    higher=np.array([60,60,65], dtype="uint8")
+    #    turtle_mask=cv2.inRange(colorshift,lower,higher)
+    #    contours, _= cv2.findContours(turtle_mask, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
         
-        dimensions=colorshift.shape
+    #    dimensions=colorshift.shape
         
-        if contours:
-            largest=max(contours, key=cv2.contourArea)
-            if cv2.contourArea(largest)>50:    
-                x, y, w, h= cv2.boundingRect(largest)
-                cv2.rectangle(colorshift, (x, y),(x+w,y+h), (0,125,125), 2)
-                cx, cy = int(x+w/2),int(y+h/2)
+    #    if contours:
+    #        largest=max(contours, key=cv2.contourArea)
+    #        if cv2.contourArea(largest)>50:    
+    #            x, y, w, h= cv2.boundingRect(largest)
+    #            cv2.rectangle(colorshift, (x, y),(x+w,y+h), (0,125,125), 2)
+    #            cx, cy = int(x+w/2),int(y+h/2)
     
 
-                self.turtle_det=True
+    #            self.turtle_det=True
             
         # Compute offset from center of image
-                offset_x = cx - self.image_width // 2
-                offset_y = cy - self.image_height // 2
-                self.turtle_offset = (offset_x, offset_y)
+    #            offset_x = cx - self.image_width // 2
+    #            offset_y = cy - self.image_height // 2
+    #            self.turtle_offset = (offset_x, offset_y)
     
-        else:
-            self.turtle_det=False
+    #    else:
+    #        self.turtle_det=False
 
-            self.turtle_offset = (0, 0)
+    #        self.turtle_offset = (0, 0)
     
     
     
-        cv2.imshow("drone_view",colorshift)
-        cv2.waitKey(1)
-    #image stuff
+    #    cv2.imshow("drone_view",colorshift)
+    #    cv2.waitKey(1)
+    ##image stuff
 
 
     def goal_callback(self, msg):
@@ -176,7 +176,7 @@ class DroneController(Node):
                 else:
                     twist.linear.z = -0.05
                     #jaakko edit__
-                    string.data("We have landed")
+                    string.data = "We have landed"
                     self.turtle_com_pub.publish(string)
                     #__
                     self.get_logger().info("TOUCHDOWN")
@@ -188,28 +188,30 @@ class DroneController(Node):
             self.cmd_vel_pub.publish(twist)
             self.get_logger().info(f"THe goal is {goal_x} and {goal_y} and self is {self.current_x} and {self.current_y} The angle between me and goal is: {self.angle}")
             
-        else:
-            if self.turtle_det:
-                offset_x, offset_y = self.turtle_offset
+        
+        ### The camera would have a lot more work
+        #else:
+        #    if self.turtle_det:
+        #        offset_x, offset_y = self.turtle_offset
 
-                # Normalize offset
-                norm_x = offset_x / (self.image_width / 2)
-                norm_y = offset_y / (self.image_height / 2)
+        #        # Normalize offset
+        #        norm_x = offset_x / (self.image_width / 2)
+        #        norm_y = offset_y / (self.image_height / 2)
 
                 # Simple proportional control to center the turtle
-                kp_cam_yaw = 0.3
-                kp_cam_pitch = 0.1
+        #        kp_cam_yaw = 0.3
+        #        kp_cam_pitch = 0.1
 
-                twist.angular.z = -kp_cam_yaw * norm_x  # turn to center x
-                twist.linear.z = -kp_cam_pitch * norm_y  # optional: adjust altitude to center y
+        #        twist.angular.z = -kp_cam_yaw * norm_x  # turn to center x
+        #        twist.linear.z = -kp_cam_pitch * norm_y  # adjust altitude to center y
 
-                self.get_logger().info(f"Centering turtle: offset_x={offset_x}, offset_y={offset_y}, norm_x={norm_x:.2f}, norm_y={norm_y:.2f}")
-            else:
-                twist.angular.y = -0.5  # slow hover or scan
-                twist.linear.x = 0.0
-                twist.linear.z = -self.landing_speed
+        #        self.get_logger().info(f"Centering turtle: offset_x={offset_x}, offset_y={offset_y}, norm_x={norm_x:.2f}, norm_y={norm_y:.2f}")
+        #    else:
+        #        twist.linear.z = -self.landing_speed
+        #        twist.linear.x = -0.5
 
-            self.cmd_vel_pub.publish(twist)
+
+        #    self.cmd_vel_pub.publish(twist)
         
         
 

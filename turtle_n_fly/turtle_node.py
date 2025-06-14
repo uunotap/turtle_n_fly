@@ -42,14 +42,15 @@ class TurtleNode(Node):
 	#jaakko edit __ 
 	def drone_callback(self,msg):
 		string = msg.data
-		self.get_logger().info(f"Recieved message from drone: {string}!)
-  	#__
+		self.get_logger().info("Recieved message from drone:"+ string+"!")
+  	#--
+	  
 	def scan_callback(self,msg):
 
-		self.get_logger().info("we logging")
+		#self.get_logger().info("we logging")
 
 		if self.turning:
-			self.get_logger().info("WE here")
+			#self.get_logger().info("WE here")
 			return
 		angle_inc = msg.angle_increment
 		angle_min = msg.angle_min
@@ -75,13 +76,13 @@ class TurtleNode(Node):
 			self.max_side="left"
 		else:
 			
-			self.get_logger().info("I CANT TURNNNN")
+			#self.get_logger().info("I CANT TURNNNN")
 			self.max_side = "left"
 
 			
 
-		self.get_logger().info(f'Left (90°): {left_distance:.2f} m, Right (-90°): {right_distance:.2f} m')
-		self.get_logger().info(f'The further side is {self.max_side}')
+		#self.get_logger().info(f'Left (90°): {left_distance:.2f} m, Right (-90°): {right_distance:.2f} m')
+		#self.get_logger().info(f'The further side is {self.max_side}')
 
 
 	def clock_callback(self, msg):
@@ -98,12 +99,12 @@ class TurtleNode(Node):
 			
 			self.cmd_publisher.publish(twist)
 	def pc_callback(self,msg):
-		self.get_logger().info("We in pc callback")
+		#self.get_logger().info("We in pc callback")
 		twist2 = Twist()
 		points = list(pc2.read_points(msg, skip_nans=True))
    
 		if not points:
-			self.get_logger().info("No points are coming through")
+			#self.get_logger().info("No points are coming through")
 			return
 		distances= [(x**2 + y**2 +z**2)**0.5 for x, y, z, *_ in points]
 		
@@ -118,19 +119,20 @@ class TurtleNode(Node):
 		if front_points:
 		
 			min_in_front = min(front_points)
-			self.get_logger().info(f"Min in front {min_in_front} ")
+			#self.get_logger().info(f"Min in front {min_in_front} ")
 			if min_in_front > 0.20:
 					self.front_clear_count += 1
 					print(f"Waiting {self.front_clear_count}")
 					if self.front_clear_count > 5:
 
 						self.turning = False
-						self.get_logger().info("Forward!")
+						#self.get_logger().info("Forward!")
 						twist2.angular.z = 0.0
 						twist2.linear.x = 0.2
 						self.cmd_publisher.publish(twist2)
 					else: 
-						self.get_logger().info("Waitign for clear front")
+						#self.get_logger().info("Waitign for clear front")
+						return
 			else:
 				self.front_clear_count = 0
 				self.turning = True
@@ -140,7 +142,8 @@ class TurtleNode(Node):
 
 
 		else:
-			self.get_logger().warn("Nothing visbile in the front")
+			#self.get_logger().warn("Nothing visbile in the front")
+			return
 		
   
 			
@@ -152,7 +155,7 @@ class TurtleNode(Node):
 		
 		
 		
-		self.get_logger().info(f"Point cloud with {len(points)} points. Minimum distance of: {min_dist:.2f}, Maximum distance of: {max_dist: .2f}") 
+		#self.get_logger().info(f"Point cloud with {len(points)} points. Minimum distance of: {min_dist:.2f}, Maximum distance of: {max_dist: .2f}") 
 		#self.get_logger().info(f"The front points: {front_points}")
 		# Add to the class TurtleNode
 		if min_dist > 0.4:
@@ -165,7 +168,7 @@ class TurtleNode(Node):
 
 	def send_position_to_drone(self):
 		if self.position is None:
-			self.get_logger().warn("Position unknown")
+			#self.get_logger().warn("Position unknown")
 			return
 		pose_msg = PoseStamped()
 		pose_msg.header.stamp = self.get_clock().now().to_msg()
@@ -173,13 +176,13 @@ class TurtleNode(Node):
 		pose_msg.pose.position.x = self.position.x
 		pose_msg.pose.position.y = self.position.y
 		self.goal_publisher.publish(pose_msg)
-		self.get_logger().info(f"Sending goal to drone: ({self.position.x:.2f}, {self.position.y:.2f})")
+		#self.get_logger().info(f"Sending goal to drone: ({self.position.x:.2f}, {self.position.y:.2f})")
 
 	def command_backup(self):
 		twist = Twist()
 		twist.linear.x = -0.2
 		self.cmd_publisher.publish(twist)
-		self.get_logger().info("Backing up a bit...")
+		#self.get_logger().info("Backing up a bit...")
 		time.sleep(5.0)
 		twist.linear.x = 0.0
 		self.cmd_publisher.publish(twist)
