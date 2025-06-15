@@ -1,5 +1,11 @@
 # Project info
 
+# Introduction
+This project is part of the AR MRS 2025 course and demonstrates a collaborative multi-robot system in a simulated environment using ROS 2 and Webots. A TurtleBot3 scouts a terrain to identify a safe landing zone, then communicates the coordinates to a Mavic 2 Pro drone, which autonomously navigates to the spot and lands.
+
+The simulation is entirely run in Webots R2025a and leverages the ROS 2 Humble Hawksbill middleware. This repository contains all the necessary code, launch files, and setup instructions to reproduce the system.
+
+Follow the instructions below to set up your environment and run the simulation.
 
 
 # General outline of the project files
@@ -86,7 +92,8 @@ ros2 launch turtle_n_fly turtle_n_fly.launch.py
 ```
 
 
-
+## Findings and future possibilities
+We noticed that the teamworks of two robots was feasible in the simulation environment. The speed of the turtlebot finding the suitable landing area, and the smooth landing of the drone can be improved upon, but they work fine for a proof of consept. Although the communication between the drones is limited to mostly the TurtleBot sending location info to the drone, it could be improved upon so that the turtlebot could use the drones vantage point to possible find the optimal route faster.
 
 
 
