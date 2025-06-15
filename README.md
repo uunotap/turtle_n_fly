@@ -93,7 +93,7 @@ ros2 launch turtle_n_fly turtle_n_fly.launch.py
 
 
 ## Findings and future possibilities
-We noticed that the teamworks of two robots was feasible in the simulation environment. The speed of the turtlebot finding the suitable landing area, and the smooth landing of the drone can be improved upon, but they work fine for a proof of consept. Although the communication between the drones is limited to mostly the TurtleBot sending location info to the drone, it could be improved upon so that the turtlebot could use the drones vantage point to possible find the optimal route faster.
+We noticed that the teamworks of two robots was feasible in the simulation environment. The speed of the turtlebot finding the suitable landing area, and the smooth landing of the drone can be improved upon, but they work fine for a proof of consept. The communication between the turtlebot and the drone is limited to simple commands and information, it could be improved upon for example, so that the turtlebot could use the drones vantage point to possible find the optimal route faster.
 
 
 
